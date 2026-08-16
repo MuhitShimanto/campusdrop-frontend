@@ -1,7 +1,12 @@
 {
-  "name": "client",
+  "name": "campusdrop-frontend",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhitShimanto/campusdrop-frontend.git"
+  },
+  "author": "Md. Muhitul Islam Shimanto",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,9 +14,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.31.0",
     "next": "16.3.1",
+    "radix-ui": "^1.6.7",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "shadcn": "^4.18.0",
+    "tailwind-merge": "^3.6.0",
+    "tw-animate-css": "^1.4.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
