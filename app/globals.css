@@ -165,7 +165,7 @@
   --counter-slate: color-mix(in oklch, var(--slate-600) 65%, white 35%);
  
   /* Semantic — light mode */
-  --background: var(--paper-50);
+  --background: var(--paper-0);
   --foreground: var(--ink-900);
   --card: var(--paper-0);
   --card-foreground: var(--ink-900);
