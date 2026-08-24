@@ -3,17 +3,12 @@ import {
   ArrowRight,
   ArrowRightLeft,
   Box,
-  CompassIcon,
-  Home,
   LogOut,
-  Search,
   Settings,
-  Store,
-  User,
+  User2,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
 import Brand from "../shared/brand";
 import {
   DropdownMenu,
@@ -26,15 +21,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 import { LogoutButton } from "../auth/logout-btn";
-import getSession from "@/lib/get-session";
-import MobileProfileNav from "./mobile-profile-nav";
 import PublicNavLink from "./public-nav-link";
+import MobileBottomNav from "./mobile-bottom-nav";
+import { User } from "@/types/user";
 
-
-export async function Navbar() {
-  const session = await getSession();
-  const user = session?.user;
-
+const NavbarItems = ({user}: {user: User}) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
       <div className="mx-auto w-full h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -121,7 +112,7 @@ export async function Navbar() {
 
                 <DropdownMenuItem asChild className="px-3">
                   <Link href="/profile">
-                    <User className="size-5" /> Profile
+                    <User2 className="size-5" /> Profile
                   </Link>
                 </DropdownMenuItem>
 
@@ -187,89 +178,4 @@ export async function Navbar() {
   );
 }
 
-function MobileBottomNav() {
-  return (
-    <nav
-      className={cn(
-        "fixed inset-x-0 bottom-0 z-50 md:hidden",
-        "border-t border-border bg-background",
-        "pb-[env(safe-area-inset-bottom)]",
-      )}
-      aria-label="Primary navigation"
-    >
-      <div className="mx-auto grid h-16 max-w-md grid-cols-5">
-        {/* Discover */}
-        <Link
-          href="/"
-          className={cn(
-            "relative flex flex-col items-center justify-center gap-1",
-            "font-sans text-body-s font-medium",
-            "text-foreground",
-            "outline-none transition-colors duration-100",
-            "focus-visible:bg-muted",
-            "active:scale-[0.98]",
-          )}
-        >
-          <Home className="size-6" strokeWidth={1.75} />
-          <span>Home</span>
-
-          <span className="absolute top-0 h-0.5 w-8 rounded-full bg-primary" />
-        </Link>
-
-        {/* Explore */}
-        <Link
-          href="/explore"
-          className={cn(
-            "flex flex-col items-center justify-center gap-1",
-            "font-sans text-body-s font-medium",
-            "text-muted-foreground",
-            "outline-none transition-colors duration-100",
-            "hover:text-foreground",
-            "focus-visible:bg-muted",
-            "active:scale-[0.98]",
-          )}
-        >
-          <CompassIcon className="size-6" strokeWidth={1.75} />
-          <span>Explore</span>
-        </Link>
-
-        {/* Search */}
-        <Link
-          href="/search"
-          className={cn(
-            "flex flex-col items-center justify-center gap-1",
-            "font-sans text-body-s font-medium",
-            "text-muted-foreground",
-            "outline-none transition-colors duration-100",
-            "hover:text-foreground",
-            "focus-visible:bg-muted",
-            "active:scale-[0.98]",
-          )}
-        >
-          <Search className="size-6" strokeWidth={1.75} />
-          <span>Search</span>
-        </Link>
-
-        {/* Stores */}
-        <Link
-          href="/stores"
-          className={cn(
-            "flex flex-col items-center justify-center gap-1",
-            "font-sans text-body-s font-medium",
-            "text-muted-foreground",
-            "outline-none transition-colors duration-100",
-            "hover:text-foreground",
-            "focus-visible:bg-muted",
-            "active:scale-[0.98]",
-          )}
-        >
-          <Store className="size-6" strokeWidth={1.75} />
-          <span>Stores</span>
-        </Link>
-
-        {/* Profile */}
-        <MobileProfileNav />
-      </div>
-    </nav>
-  );
-}
+export default NavbarItems

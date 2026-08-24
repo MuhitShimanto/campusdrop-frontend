@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { CircleCheck, CircleX, Cross, CrossIcon } from "lucide-react";
+import { CircleCheck, CircleX } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

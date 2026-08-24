@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         plexMono.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col pb-10 sm:pb-0">
         <TooltipProvider>{children}</TooltipProvider><Toaster />
       </body>
     </html>

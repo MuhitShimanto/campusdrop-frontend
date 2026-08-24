@@ -1,11 +1,11 @@
 import { headers } from "next/headers";
 
-async function getSession() {
+async function getStore() {
   try {
     const requestHeaders = await headers();
 
     const response = await fetch(
-      `${process.env.BACKEND_URL}/api/auth/get-session`,
+      `${process.env.BACKEND_URL}/api/v1/stores/get-store`,
       {
         headers: {
           Cookie: requestHeaders.get("cookie") ?? "",
@@ -18,10 +18,10 @@ async function getSession() {
       return null;
     }
     const json = await response.json();
-    return json;
+    return json.data;
   } catch {
     return null;
   }
 }
 
-export default getSession;
+export default getStore;

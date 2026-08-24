@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { ReactNode } from "react";
 
-export function LogoutButton() {
+export function LogoutButton({children, className}: {children?: ReactNode, className?: string}) {
   const router = useRouter();
 
   async function logout() {
@@ -16,8 +17,9 @@ export function LogoutButton() {
   }
 
   return (
-    <Button variant="destructive" onClick={logout} className="w-full">
-      Sign Out
+    <Button variant="destructive" onClick={logout} className={`w-full flex gap-3 ${className}`}>
+      {children}
+      <span>Sign Out</span>
     </Button>
   );
 }
