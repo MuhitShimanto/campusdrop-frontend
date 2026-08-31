@@ -27,7 +27,7 @@ type HandleStatus =
   | "error";
 
 const SLUG_PATTERN = /^[a-z0-9_]+$/;
-const DESCRIPTION_LIMIT = 280;
+const DESCRIPTION_LIMIT = 500;
 
 const StoreProfileForm = ({ store }: { store: Store }) => {
   const [name, setName] = useState(store.name);
@@ -324,7 +324,7 @@ const StoreProfileForm = ({ store }: { store: Store }) => {
   };
 
   const handleCopyLink = async () => {
-    const url = `${window.location.origin}/store/${slug}`;
+    const url = `${window.location.origin}/stores/${slug}`;
 
     await navigator.clipboard.writeText(url);
 

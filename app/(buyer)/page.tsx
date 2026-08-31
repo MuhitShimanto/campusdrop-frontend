@@ -1,3 +1,4 @@
+import ProductCard from "@/components/product/product-card";
 
 const page = () => {
   return (
@@ -8,7 +9,7 @@ const page = () => {
           elit. Voluptates labore est distinctio velit ea! Voluptatum, quibusdam
           perferendis. Cupiditate suscipit tempore velit sed laborum ipsam
           doloribus quaerat. Ut necessitatibus ad commodi!
-        </p>        
+        </p>
       </div>
     </>
   );

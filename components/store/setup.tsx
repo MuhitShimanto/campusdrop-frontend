@@ -7,7 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, Check, ImagePlus, Loader2, X } from "lucide-react";
-import { useCloudinaryUpload, type UploadStatus } from "@/hooks/useCloudinaryUpload";
+import {
+  useCloudinaryUpload,
+  type UploadStatus,
+} from "@/hooks/useCloudinaryUpload";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import ReactConfetti from "react-confetti";
@@ -157,7 +160,10 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
   // Auto-dismiss the confetti burst so it doesn't linger on screen forever.
   useEffect(() => {
     if (!showConfetti) return;
-    const timer = setTimeout(() => setShowConfetti(false), CONFETTI_DURATION_MS);
+    const timer = setTimeout(
+      () => setShowConfetti(false),
+      CONFETTI_DURATION_MS,
+    );
     return () => clearTimeout(timer);
   }, [showConfetti]);
 
@@ -170,7 +176,10 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
     }
   }
 
-  function handleImageSelect(kind: "avatar" | "cover", e: ChangeEvent<HTMLInputElement>) {
+  function handleImageSelect(
+    kind: "avatar" | "cover",
+    e: ChangeEvent<HTMLInputElement>,
+  ) {
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;
@@ -193,23 +202,34 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
       name: name.trim(),
       slug: username,
       description: description.trim(),
-      avatar: avatarUpload.result?.eager[0].secure_url ?? avatarUpload.result?.secure_url ?? null,
-      cover: coverUpload.result?.eager[0].secure_url ?? coverUpload.result?.secure_url ?? null,
+      avatar:
+        avatarUpload.result?.eager[0].secure_url ??
+        avatarUpload.result?.secure_url ??
+        null,
+      cover:
+        coverUpload.result?.eager[0].secure_url ??
+        coverUpload.result?.secure_url ??
+        null,
       ...overrides,
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/stores`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/stores`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        },
+      );
 
       const body = await res.json().catch(() => null);
 
       if (!res.ok) {
-        throw new Error(body?.message ?? "Could not create your store. Try again.");
+        throw new Error(
+          body?.message ?? "Could not create your store. Try again.",
+        );
       }
 
       const store = (body as CreateStoreApiResponse).data;
@@ -220,21 +240,24 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
       toast.success("Store created successfully!");
     } catch (err) {
       setSubmitError(
-        err instanceof Error ? err.message : "Could not create your store. Try again.",
+        err instanceof Error
+          ? err.message
+          : "Could not create your store. Try again.",
       );
     } finally {
       setSubmitting(false);
     }
   }
 
-  const canContinueStep0 = name.trim().length > 0 && usernameStatus === "available";
+  const canContinueStep0 =
+    name.trim().length > 0 && usernameStatus === "available";
   const canContinueStep1 = description.trim().length > 0;
 
   return (
     <div className="flex h-[89vh] items-center justify-center bg-background px-4 py-12 sm:px-6">
       {showConfetti && (
         <ReactConfetti
-        recycle={false}
+          recycle={false}
           width={window.innerWidth}
           height={window.innerHeight}
           tweenDuration={SUCCESS_SCREEN_DELAY_MS}
@@ -251,7 +274,10 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
 
             {step === 0 && (
               <div className="space-y-6">
-                <StepHeading title="Name your store" subtitle="This is what shoppers will see first." />
+                <StepHeading
+                  title="Name your store"
+                  subtitle="This is what shoppers will see first."
+                />
 
                 <div className="space-y-2">
                   <Label htmlFor="store-name">Store name</Label>
@@ -286,8 +312,11 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
                       {usernameStatus === "checking" && (
                         <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                       )}
-                      {usernameStatus === "available" && <Check className="h-4 w-4 text-moss-600" />}
-                      {(usernameStatus === "taken" || usernameStatus === "invalid") && (
+                      {usernameStatus === "available" && (
+                        <Check className="h-4 w-4 text-moss-600" />
+                      )}
+                      {(usernameStatus === "taken" ||
+                        usernameStatus === "invalid") && (
                         <X className="h-4 w-4 text-rust-600" />
                       )}
                     </span>
@@ -295,7 +324,11 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
                   <UsernameHint status={usernameStatus} username={username} />
                 </div>
 
-                <Button className="w-full" disabled={!canContinueStep0} onClick={() => setStep(1)}>
+                <Button
+                  className="w-full"
+                  disabled={!canContinueStep0}
+                  onClick={() => setStep(1)}
+                >
                   Continue
                 </Button>
               </div>
@@ -313,7 +346,9 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
                   <Textarea
                     id="store-description"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value.slice(0, DESCRIPTION_MAX))}
+                    onChange={(e) =>
+                      setDescription(e.target.value.slice(0, DESCRIPTION_MAX))
+                    }
                     placeholder="Small-batch stoneware, thrown and glazed in our Bristol studio."
                     rows={5}
                     autoFocus
@@ -324,10 +359,19 @@ export default function StoreSetup({ onSuccess }: StoreSetupProps) {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button variant="outline" size="icon" onClick={() => setStep(0)} aria-label="Back">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setStep(0)}
+                    aria-label="Back"
+                  >
                     <ArrowLeft className="h-4 w-4" />
                   </Button>
-                  <Button className="flex-1" disabled={!canContinueStep1} onClick={() => setStep(2)}>
+                  <Button
+                    className="flex-1"
+                    disabled={!canContinueStep1}
+                    onClick={() => setStep(2)}
+                  >
                     Continue
                   </Button>
                 </div>
@@ -423,11 +467,21 @@ function StepHeading({ title, subtitle }: { title: string; subtitle: string }) {
   );
 }
 
-function UsernameHint({ status, username }: { status: UsernameStatus; username: string }) {
+function UsernameHint({
+  status,
+  username,
+}: {
+  status: UsernameStatus;
+  username: string;
+}) {
   if (status === "idle") return null;
 
   if (status === "checking")
-    return <p className="text-body-s text-muted-foreground">Checking availability…</p>;
+    return (
+      <p className="text-body-s text-muted-foreground">
+        Checking availability…
+      </p>
+    );
 
   if (status === "available") return null;
 
@@ -437,11 +491,16 @@ function UsernameHint({ status, username }: { status: UsernameStatus; username: 
   if (status === "invalid")
     return (
       <p className="text-body-s text-rust-600">
-        {USERNAME_MIN}–{USERNAME_MAX} lowercase letters, numbers, and underscores.
+        {USERNAME_MIN}–{USERNAME_MAX} lowercase letters, numbers, and
+        underscores.
       </p>
     );
 
-  return <p className="text-body-s text-rust-600">Couldn&apos;t check availability. Try again.</p>;
+  return (
+    <p className="text-body-s text-rust-600">
+      Couldn&apos;t check availability. Try again.
+    </p>
+  );
 }
 
 interface ImageStepProps {
@@ -489,35 +548,51 @@ function ImageStep({
     <div className="space-y-6">
       <StepHeading title={title} subtitle={subtitle} />
 
-      <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onSelect} />
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={onSelect}
+      />
 
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={busy}
         className={cn(
-          "group relative flex items-center justify-center overflow-hidden border border-dashed border-input bg-paper-50 transition-colors hover:border-primary disabled:cursor-not-allowed",
-          isAvatar ? "mx-auto h-32 w-32 rounded-full" : "aspect-21/9 w-full rounded-sm",
+          "group relative flex items-center justify-center border border-dashed border-input bg-paper-50 transition-colors hover:border-primary disabled:cursor-not-allowed",
+          isAvatar
+            ? "mx-auto h-32 w-32 rounded-full"
+            : "aspect-21/9 w-full rounded-sm",
         )}
       >
-        {preview ? (
-          <Image src={preview} alt="" className="h-full w-full object-cover" width={128} height={128} />
-        ) : (
-          <span className="flex flex-col items-center gap-2 px-4 text-center text-caption uppercase tracking-caption text-muted-foreground">
-            <ImagePlus className="h-5 w-5" />
-            Choose image
-          </span>
-        )}
+        <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
+          {preview ? (
+            <Image
+              src={preview}
+              alt=""
+              className="h-full w-full object-cover"
+              width={128}
+              height={128}
+            />
+          ) : (
+            <span className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center text-caption uppercase tracking-caption text-muted-foreground">
+              <ImagePlus className="h-5 w-5" />
+              Choose image
+            </span>
+          )}
 
-        {uploadState === "uploading" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/50 text-paper-0">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            <span className="font-mono text-caption">{progress}%</span>
-          </div>
-        )}
+          {uploadState === "uploading" && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/50 text-paper-0">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span className="font-mono text-caption">{progress}%</span>
+            </div>
+          )}
+        </div>
 
         {uploaded && (
-          <span className="absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-moss-600 text-paper-0">
+          <span className="absolute bottom-2 right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-moss-600 text-paper-0">
             <Check className="h-3.5 w-3.5" />
           </span>
         )}
@@ -526,55 +601,91 @@ function ImageStep({
       {error && (
         <div className="flex items-center justify-between rounded-sm bg-rust-200 px-3 py-2 text-body-s text-rust-600">
           <span>{error}</span>
-          <button type="button" onClick={onRetry} className="font-medium underline underline-offset-2">
+          <button
+            type="button"
+            onClick={onRetry}
+            className="font-medium underline underline-offset-2"
+          >
             Retry
           </button>
         </div>
       )}
 
       {submitError && (
-        <div className="rounded-sm bg-rust-200 px-3 py-2 text-body-s text-rust-600">{submitError}</div>
+        <div className="rounded-sm bg-rust-200 px-3 py-2 text-body-s text-rust-600">
+          {submitError}
+        </div>
       )}
 
       <div className="flex gap-3">
-        <Button variant="outline" size="icon" onClick={onBack} disabled={busy} aria-label="Back">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={onBack}
+          disabled={busy}
+          aria-label="Back"
+        >
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <Button variant="outline" className="flex-1" onClick={onSkip} disabled={busy}>
+        <Button
+          variant="outline"
+          className="flex-1"
+          onClick={onSkip}
+          disabled={busy}
+        >
           Skip for now
         </Button>
-        <Button className="flex-1" onClick={onContinue} disabled={busy || uploadState === "error" || !canContinue}>
-          {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : (finalLabel ?? "Continue")}
+        <Button
+          className="flex-1"
+          onClick={onContinue}
+          disabled={busy || uploadState === "error" || !canContinue}
+        >
+          {submitting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            (finalLabel ?? "Continue")
+          )}
         </Button>
       </div>
     </div>
   );
 }
 
-
 function SuccessCard({ store }: { store: StoreData }) {
   const router = useRouter();
-  const time = SUCCESS_SCREEN_DELAY_MS+(SUCCESS_SCREEN_DELAY_MS*0.5);
+  const time = SUCCESS_SCREEN_DELAY_MS + SUCCESS_SCREEN_DELAY_MS * 0.5;
   setInterval(() => {
     router.refresh();
   }, time);
   return (
     <div className="overflow-hidden rounded-sm border border-border bg-card">
       {store.cover && (
-        <Image src={store.cover} alt="" width={128} height={72} className="aspect-21/9 w-full object-cover" />
+        <Image
+          src={store.cover}
+          alt=""
+          loading="eager"
+          width={512}
+          height={288}
+          className="aspect-21/9 w-full object-cover"
+        />
       )}
 
       <div className="p-6 text-center sm:p-8">
         <AnimatedCheck />
 
-        <h1 className="mt-6 font-heading text-display-m text-foreground">Your store is live</h1>
-        <p className="mt-1 text-body-m text-muted-foreground">{store.name} is ready for shoppers.</p>
+        <h1 className="mt-6 font-heading text-display-m text-foreground">
+          Your store is live
+        </h1>
+        <p className="mt-1 text-body-m text-muted-foreground">
+          {store.name} is ready for shoppers.
+        </p>
 
         <div className="mt-6 flex flex-col items-center gap-3">
           {store.avatar && (
             <Image
               src={store.avatar}
               alt=""
+              loading="eager"
               className="h-16 w-16 rounded-full border border-border object-cover"
               width={64}
               height={64}
@@ -584,7 +695,9 @@ function SuccessCard({ store }: { store: StoreData }) {
           <dl className="w-full space-y-3 rounded-sm bg-paper-50 p-4 text-left">
             <SummaryRow label="Store name" value={store.name} />
             <SummaryRow label="Handle" value={`@${store.slug}`} />
-            {store.description && <SummaryRow label="Description" value={store.description} />}
+            {store.description && (
+              <SummaryRow label="Description" value={store.description} />
+            )}
           </dl>
         </div>
       </div>
@@ -595,8 +708,12 @@ function SuccessCard({ store }: { store: StoreData }) {
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-caption uppercase tracking-caption text-muted-foreground">{label}</dt>
-      <dd className="mt-0.5 wrap-break-word text-body-s text-foreground">{value}</dd>
+      <dt className="text-caption uppercase tracking-caption text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="mt-0.5 wrap-break-word text-body-s text-foreground">
+        {value}
+      </dd>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import SellerDashboardItemTitle from "@/components/seller-dashboard/title";
 import {
   AlertCircle,
   ArrowUpDown,
@@ -13,15 +14,7 @@ const Page = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Tickets
-        </h1>
-        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-          Manage reports you’ve filed against customers for missed
-          pickups and review reports filed against your store.
-        </p>
-      </div>
+      <SellerDashboardItemTitle title="Tickets" description="Manage reports you&apos;ve filed against customers for missed pickups and review reports filed against your store." />
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

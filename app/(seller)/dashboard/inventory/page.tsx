@@ -1,3 +1,4 @@
+import SellerDashboardItemTitle from "@/components/seller-dashboard/title";
 import {
   AlertTriangle,
   ArrowUpDown,
@@ -12,14 +13,7 @@ const Page = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Inventory
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Monitor stock levels and manage your product inventory.
-          </p>
-        </div>
+        <SellerDashboardItemTitle title="Inventory" description="Monitor stock levels and manage your product inventory." />
 
         <button
           type="button"

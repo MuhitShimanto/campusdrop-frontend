@@ -1,3 +1,4 @@
+import SellerDashboardItemTitle from "@/components/seller-dashboard/title";
 import {
   Mail,
   MoreHorizontal,
@@ -9,15 +10,8 @@ import {
 const Page = () => {
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Customers
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          View and manage customers who have purchased from your store.
-        </p>
-      </div>
+      {/* Header */}      
+      <SellerDashboardItemTitle title="Customers" description="View and manage customers who have purchased from your store." />
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

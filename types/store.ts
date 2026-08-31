@@ -9,3 +9,20 @@ export type Store = {
   created_at: string;
   updated_at: string;
 };
+
+export type StorePublicViewData = {
+  store: {
+    cover: string;
+    avatar: string;
+    name: string;
+    slug: string;
+    store_id: string;
+    description: string;
+  };
+  user: {
+    avatar: string | null;
+    name: string;
+    slug: string;
+    user_id: string;
+  };
+};

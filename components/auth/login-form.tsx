@@ -51,7 +51,6 @@ export default function LoginForm() {
       });
 
       if (error) {
-        console.error("Email sign-in error:", error);
         setError(error.message || "Invalid email or password.");
       }
     } catch (error) {

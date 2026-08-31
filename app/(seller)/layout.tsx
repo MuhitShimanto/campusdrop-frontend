@@ -8,5 +8,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const store = await getStore();
 
   if (!session) redirect("/");
-  return <SellerSidebar user={session.user} hasStore={store}>{children}</SellerSidebar>;
+  return (
+    <SellerSidebar user={session.user} hasStore={store}>
+      {children}
+    </SellerSidebar>
+  );
 }

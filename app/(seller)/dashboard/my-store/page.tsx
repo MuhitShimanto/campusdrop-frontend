@@ -1,6 +1,7 @@
 import getStore from "@/lib/get-store";
 import { redirect } from "next/navigation";
 import StoreProfileForm from "./store-profile-form";
+import SellerDashboardItemTitle from "@/components/seller-dashboard/title";
 
 const Page = async () => {
   const store = await getStore();
@@ -9,13 +10,11 @@ const Page = async () => {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 pb-24">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Store Profile</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage your store information and how customers see your business.
-        </p>
-      </div>
+    <div className="mx-auto  space-y-6 pb-24">
+      <SellerDashboardItemTitle
+        title="Store Profile"
+        description="Manage your store information and how customers see your business."
+      />
 
       <StoreProfileForm store={store} />
     </div>

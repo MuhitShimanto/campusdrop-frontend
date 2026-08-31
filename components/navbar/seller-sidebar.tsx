@@ -3,9 +3,8 @@ import Link from "next/link";
 import {
   ArrowRightLeft,
   LogOut,
-  Menu,
   Settings,
-  ShoppingBag
+  ShoppingBag,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -19,19 +18,28 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarRail,
-  SidebarTrigger,
+  SidebarRail
 } from "@/components/ui/sidebar";
 import { LogoutButton } from "@/components/auth/logout-btn";
 import SellerSidebarContent from "./seller-sidebar-content";
 import { User } from "@/types/user";
+import SidebarCollapseButton from "./seller-sidebar-collapse-btn";
 
-const SellerSidebar = ({ children, user, hasStore }: { children: ReactNode, user: User, hasStore: boolean }) => {
-  // get url
-  const url = typeof window !== "undefined" ? window.location.pathname : "";
+const SellerSidebar = ({
+  children,
+  user,
+  hasStore,
+}: {
+  children: ReactNode;
+  user: User;
+  hasStore: boolean;
+}) => {
   return (
     <SidebarProvider>
-      <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+      <Sidebar
+        collapsible="icon"
+        className="relative border-r border-sidebar-border"
+      >
         {/* Brand */}
         <SidebarHeader className="h-16 border-b border-sidebar-border flex justify-center items-center">
           <SidebarMenu>
@@ -64,7 +72,6 @@ const SellerSidebar = ({ children, user, hasStore }: { children: ReactNode, user
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
-              
                 asChild
                 size="lg"
                 tooltip={user.name}
@@ -116,28 +123,16 @@ const SellerSidebar = ({ children, user, hasStore }: { children: ReactNode, user
           </SidebarMenu>
         </SidebarFooter>
 
+        {/* Collapse Btn */}
+        <SidebarCollapseButton />
+
         <SidebarRail />
       </Sidebar>
 
       {/* Page content */}
-      <div className="min-w-0 flex-1">
-        <header className="flex h-16 items-center border-b border-border bg-background px-3">
-          <SidebarTrigger
-            className="size-9 rounded-md"
-            aria-label="Toggle sidebar"
-          >
-            <Menu className="size-5" />
-          </SidebarTrigger>
-
-          <div className="ml-3 h-5 w-px bg-border" />
-
-          <span className="ml-3 font-sans text-body-m font-medium text-muted-foreground">
-            Seller Dashboard
-          </span>
-        </header>
-
-        <main className="min-h-[calc(100vh-4rem)] bg-background p-3">
-          {children}
+      <div className="relative min-w-0 flex-1">
+        <main className="min-h-[calc(100vh-4rem)] p-3">
+          <div className="mx-auto w-full max-w-7xl mt-2">{children}</div>
         </main>
       </div>
     </SidebarProvider>

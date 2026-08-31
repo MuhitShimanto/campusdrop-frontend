@@ -5,17 +5,27 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-display: var(--font-big-shoulders), "Arial Narrow", sans-serif;
-  --font-sans-stack: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono-stack: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-display:
+    var(--font-barlow-condensed),
+    var(--font-roboto-condensed), sans-serif;
+
+  --font-sans-stack:
+    var(--font-plex-sans), var(--font-inter), var(--font-roboto), ui-sans-serif,
+    system-ui, sans-serif;
+
+  --font-mono-stack:
+    var(--font-plex-mono), var(--font-jetbrains-mono), var(--font-fira-code),
+    ui-monospace, monospace;
 }
 
 @theme inline {
   /* ---- Fonts: three families, three jobs, no overlap ---- */
   --font-sans: var(--font-sans-stack);
   --font-mono: var(--font-mono-stack);
-  --font-heading: var(--font-display); /* pair with a display-* size, e.g. "font-heading text-display-l" */
- 
+  --font-heading: var(
+    --font-display
+  ); /* pair with a display-* size, e.g. "font-heading text-display-l" */
+
   /* ---- Semantic aliases -> shadcn component contract ---- */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -49,7 +59,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
- 
+
   /* ---- Raw palette, exposed directly as utilities:
      bg-ink-900, text-marigold-600, border-ink-150, etc. ---- */
   --color-ink-900: var(--ink-900);
@@ -73,22 +83,22 @@
   --color-counter-moss: var(--counter-moss);
   --color-counter-rust: var(--counter-rust);
   --color-counter-slate: var(--counter-slate);
- 
+
   /* ---- Radius: a category signal, not a decorative scale.
      Nothing in the system exceeds 8px outside the ticket notch, so every
      step from lg upward is deliberately clamped to 8px rather than left
      to grow — a stray rounded-2xl from a default component can't sneak
      in a bigger radius than the system allows. ---- */
-  --radius-sm: 4px;  /* cards, list-item containers, inputs */
-  --radius-md: 6px;  /* buttons, chips, badges, tags */
-  --radius-lg: 8px;  /* the claim ticket — pair with a clip-path notch, radius alone can't cut it */
-  --radius-xl: 8px;  /* clamped */
+  --radius-sm: 4px; /* cards, list-item containers, inputs */
+  --radius-md: 6px; /* buttons, chips, badges, tags */
+  --radius-lg: 8px; /* the claim ticket — pair with a clip-path notch, radius alone can't cut it */
+  --radius-xl: 8px; /* clamped */
   --radius-2xl: 8px; /* clamped */
   --radius-3xl: 8px; /* clamped */
   --radius-4xl: 8px; /* clamped */
   /* Tables/prep-lists/dividers use radius-none (0px); Tailwind's built-in
      rounded-none and rounded-full (avatars) are already correct as-is. */
- 
+
   /* ---- Type scale: base 16px, ratio ~1.25. Pair each size with the
      right family manually (font-heading for display-*, default font-sans
      for heading/body/caption, font-mono for mono) — Tailwind's font-size
@@ -117,36 +127,55 @@
   --text-mono: 0.9375rem;
   --text-mono--line-height: 1.4;
   --text-mono--font-weight: 500; /* Plex Mono Medium */
- 
+
   --tracking-caption: 0.04em;
- 
+
   /* ---- Elevation: flat + hairline borders by default. Shadow is
      reserved for genuinely floating surfaces (toasts, dropdowns, modals);
      it is never combined with a border on the same element. ---- */
   --shadow-float: 0 2px 8px rgba(33, 30, 25, 0.16);
   --shadow-ticket: 0 4px 16px rgba(33, 30, 25, 0.22); /* the one component allowed extra presence */
 }
+@keyframes ping-fade {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+
+  70% {
+    opacity: 0.15;
+  }
+
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+.animate-ping-fade {
+  animation: ping-fade 2.4s ease-out infinite;
+}
 
 /* ---- 3. Raw palette + light-mode semantic mapping --------------------- */
 :root {
   /* Base neutrals */
-  --ink-900: #211E19;
-  --ink-700: #4A453C;
-  --ink-500: #79725F;
-  --ink-300: #B4AC98;
-  --ink-150: #DEDACB;
-  --paper-50: #F1EEE3;
-  --paper-0: #FAF8F1;
- 
+  --ink-900: #211e19;
+  --ink-700: #4a453c;
+  --ink-500: #79725f;
+  --ink-300: #b4ac98;
+  --ink-150: #dedacb;
+  --paper-50: #f1eee3;
+  --paper-0: #faf8f1;
+
   /* Functional colors */
-  --marigold-600: #C0871E;
-  --marigold-200: #EFDBAF;
-  --moss-600: #33604C;
-  --moss-200: #D3E1D6;
-  --rust-600: #A2432A;
-  --rust-200: #EFD6CB;
-  --slate-600: #49596A;
- 
+  --marigold-600: #c0871e;
+  --marigold-200: #efdbaf;
+  --moss-600: #33604c;
+  --moss-200: #d3e1d6;
+  --rust-600: #a2432a;
+  --rust-200: #efd6cb;
+  --slate-600: #49596a;
+
   /* Counter Mode surface. Per the plan this was scoped to the seller scan
      screen only — at your request it also serves as the app's global dark
      theme below, since it's the only dark-surface palette the brief
@@ -156,14 +185,14 @@
      marigold/moss are); they're derived here with the same lightening
      ratio the designer applied to marigold-600 -> counter-marigold, so
      "no stock" and "info" states stay legible in dark mode too. */
-  --counter-bg: #18171A;
-  --counter-surface: #211F1D;
-  --counter-text: #ECE8DE;
-  --counter-marigold: #E5B24E;
-  --counter-moss: #5C9678;
+  --counter-bg: #18171a;
+  --counter-surface: #211f1d;
+  --counter-text: #ece8de;
+  --counter-marigold: #e5b24e;
+  --counter-moss: #5c9678;
   --counter-rust: color-mix(in oklch, var(--rust-600) 65%, white 35%);
   --counter-slate: color-mix(in oklch, var(--slate-600) 65%, white 35%);
- 
+
   /* Semantic — light mode */
   --background: var(--paper-0);
   --foreground: var(--ink-900);
@@ -172,26 +201,32 @@
   --popover: var(--paper-0);
   --popover-foreground: var(--ink-900);
   --primary: var(--marigold-600);
-  --primary-foreground: var(--ink-900); /* ink-900 on marigold-600 ≈ 5.5:1; paper-0 text only clears ≈2.9:1, so dark ink is the accessible choice */
+  --primary-foreground: var(
+    --ink-900
+  ); /* ink-900 on marigold-600 ≈ 5.5:1; paper-0 text only clears ≈2.9:1, so dark ink is the accessible choice */
   --secondary: var(--paper-0);
   --secondary-foreground: var(--ink-900);
   --muted: var(--paper-0);
   --muted-foreground: var(--ink-500);
-  --accent: var(--ink-150); /* neutral hover wash — marigold/moss stay reserved for their semantic meanings, not generic hover states */
+  --accent: var(
+    --ink-150
+  ); /* neutral hover wash — marigold/moss stay reserved for their semantic meanings, not generic hover states */
   --accent-foreground: var(--ink-900);
   --destructive: var(--rust-600);
   --destructive-foreground: var(--paper-0); /* paper-0 on rust-600 ≈ 5.8:1 */
   --border: var(--ink-150); /* hairline default on paper surfaces */
-  --input: var(--ink-300);  /* interactive element outlines (inputs, default-state buttons) */
+  --input: var(
+    --ink-300
+  ); /* interactive element outlines (inputs, default-state buttons) */
   --ring: var(--marigold-600);
- 
+
   /* Dashboard charts: ink and marigold only, per spec */
   --chart-1: var(--marigold-600);
   --chart-2: var(--ink-700);
   --chart-3: var(--ink-500);
   --chart-4: var(--ink-300);
   --chart-5: var(--marigold-200);
- 
+
   --sidebar: var(--paper-50);
   --sidebar-foreground: var(--ink-900);
   --sidebar-primary: var(--marigold-600);
@@ -200,7 +235,7 @@
   --sidebar-accent-foreground: var(--ink-900);
   --sidebar-border: var(--ink-150);
   --sidebar-ring: var(--marigold-600);
- 
+
   --radius: 4px; /* fallback for any component reading var(--radius) directly; matches radius-sm */
 }
 
@@ -213,32 +248,66 @@
   --popover: var(--counter-surface);
   --popover-foreground: var(--counter-text);
   --primary: var(--counter-marigold);
-  --primary-foreground: var(--ink-900); /* ink-900 on counter-marigold ≈ 8.9:1 */
+  --primary-foreground: var(
+    --ink-900
+  ); /* ink-900 on counter-marigold ≈ 8.9:1 */
   --secondary: var(--counter-surface);
   --secondary-foreground: var(--counter-text);
   --muted: var(--counter-surface);
-  --muted-foreground: color-mix(in oklch, var(--counter-text) 65%, var(--counter-bg) 35%);
+  --muted-foreground: color-mix(
+    in oklch,
+    var(--counter-text) 65%,
+    var(--counter-bg) 35%
+  );
   --accent: color-mix(in oklch, var(--counter-text) 8%, var(--counter-bg) 92%);
   --accent-foreground: var(--counter-text);
   --destructive: var(--counter-rust);
-  --destructive-foreground: var(--ink-900); /* ink-900 on counter-rust ≈ 5.3:1; counter-text on counter-rust falls short at ≈2.7:1 */
+  --destructive-foreground: var(
+    --ink-900
+  ); /* ink-900 on counter-rust ≈ 5.3:1; counter-text on counter-rust falls short at ≈2.7:1 */
   --border: color-mix(in oklch, var(--counter-text) 12%, var(--counter-bg) 88%);
   --input: color-mix(in oklch, var(--counter-text) 25%, var(--counter-bg) 75%);
-  --ring: var(--counter-marigold); /* per spec: the focus ring swaps to counter-marigold on the dark surface */
- 
+  --ring: var(
+    --counter-marigold
+  ); /* per spec: the focus ring swaps to counter-marigold on the dark surface */
+
   --chart-1: var(--counter-marigold);
-  --chart-2: color-mix(in oklch, var(--counter-text) 70%, var(--counter-bg) 30%);
-  --chart-3: color-mix(in oklch, var(--counter-text) 50%, var(--counter-bg) 50%);
-  --chart-4: color-mix(in oklch, var(--counter-text) 30%, var(--counter-bg) 70%);
-  --chart-5: color-mix(in oklch, var(--counter-marigold) 40%, var(--counter-bg) 60%);
- 
+  --chart-2: color-mix(
+    in oklch,
+    var(--counter-text) 70%,
+    var(--counter-bg) 30%
+  );
+  --chart-3: color-mix(
+    in oklch,
+    var(--counter-text) 50%,
+    var(--counter-bg) 50%
+  );
+  --chart-4: color-mix(
+    in oklch,
+    var(--counter-text) 30%,
+    var(--counter-bg) 70%
+  );
+  --chart-5: color-mix(
+    in oklch,
+    var(--counter-marigold) 40%,
+    var(--counter-bg) 60%
+  );
+
   --sidebar: var(--counter-bg);
   --sidebar-foreground: var(--counter-text);
   --sidebar-primary: var(--counter-marigold);
   --sidebar-primary-foreground: var(--ink-900);
-  --sidebar-accent: color-mix(in oklch, var(--counter-text) 8%, var(--counter-bg) 92%);
+  --sidebar-accent: color-mix(
+    in oklch,
+    var(--counter-text) 8%,
+    var(--counter-bg) 92%
+  );
   --sidebar-accent-foreground: var(--counter-text);
-  --sidebar-border: color-mix(in oklch, var(--counter-text) 12%, var(--counter-bg) 88%);
+  --sidebar-border: color-mix(
+    in oklch,
+    var(--counter-text) 12%,
+    var(--counter-bg) 88%
+  );
   --sidebar-ring: var(--counter-marigold);
 }
 
@@ -252,39 +321,39 @@
   * {
     @apply border-border outline-ring/50;
   }
- 
+
   body {
     @apply bg-background text-foreground;
   }
- 
+
   html {
     @apply font-sans;
   }
- 
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
- 
+
   /* Universal, never-suppressed focus ring (2px, 2px offset, per spec) */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
- 
+
   /* Disabled = 40% opacity, no pointer, no hover response */
   :disabled,
   [aria-disabled="true"] {
     opacity: 0.4;
     cursor: not-allowed;
   }
- 
+
   /* Every number that matters is exact data, not prose — tabular figures
      wherever the mono face is used (prices, stock counts, order codes). */
   .font-mono {
     font-variant-numeric: tabular-nums;
   }
- 
+
   /* Dashed dividers are reserved exclusively for the ticket tear-line —
      use this class instead of border-dashed so the motif never leaks
      into decorative use elsewhere. */
@@ -292,7 +361,7 @@
     border-top-style: dashed;
     border-top-color: var(--ink-300);
   }
- 
+
   /* prefers-reduced-motion is checked once, here, rather than per-component */
   @media (prefers-reduced-motion: reduce) {
     *,

@@ -1,3 +1,4 @@
+import SellerDashboardItemTitle from "@/components/seller-dashboard/title";
 import getStore from "@/lib/get-store";
 import {
   ArrowUpRight,
@@ -8,7 +9,7 @@ import {
 } from "lucide-react";
 import { redirect } from "next/navigation";
 
-const Page = async() => {
+const Page = async () => {
   const store = await getStore();
   if (!store) {
     redirect("/dashboard/my-store/setup");
@@ -16,14 +17,10 @@ const Page = async() => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Seller Dashboard
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Welcome back! Here’s an overview of your store.
-        </p>
-      </div>
+      <SellerDashboardItemTitle
+        title="Dashboard"
+        description="Welcome back! Here&apos;s an overview of your store."
+      />
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -34,9 +31,7 @@ const Page = async() => {
           </div>
 
           <p className="mt-3 text-2xl font-semibold">$0.00</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            No sales yet
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">No sales yet</p>
         </div>
 
         <div className="rounded-xl border bg-card p-5">
@@ -46,9 +41,7 @@ const Page = async() => {
           </div>
 
           <p className="mt-3 text-2xl font-semibold">0</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Total orders
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">Total orders</p>
         </div>
 
         <div className="rounded-xl border bg-card p-5">
@@ -58,9 +51,7 @@ const Page = async() => {
           </div>
 
           <p className="mt-3 text-2xl font-semibold">0</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Active products
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">Active products</p>
         </div>
 
         <div className="rounded-xl border bg-card p-5">
@@ -70,9 +61,7 @@ const Page = async() => {
           </div>
 
           <p className="mt-3 text-2xl font-semibold">0</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Total customers
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">Total customers</p>
         </div>
       </div>
 
