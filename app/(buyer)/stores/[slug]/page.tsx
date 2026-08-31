@@ -14,6 +14,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     <StorePublicView
       store={storeDataWithUser.store}
       user={storeDataWithUser.user}
+      listings={storeDataWithUser.listings}
     />
   );
 };

@@ -1,21 +1,30 @@
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import React from 'react'
+"use client";
+
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
 
 const PublicNavLink = ({
   href,
   children,
-  active = false,
 }: {
   href: string;
   children: React.ReactNode;
-  active?: boolean;
 }) => {
-    return (
+  const pathname = usePathname();
+
+  const active =
+    href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(`${href}/`);
+
+  return (
     <Link
       href={href}
+      aria-current={active ? "page" : undefined}
       className={cn(
-        "flex h-10 items-center rounded-md px-3",
+        "flex h-10 items-center px-3",
         "font-sans text-body-m font-medium",
         "outline-none transition-colors duration-100",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -24,9 +33,19 @@ const PublicNavLink = ({
           : "text-muted-foreground hover:text-foreground",
       )}
     >
-      {children}
+      <span className="relative">
+        {children}
+
+        <span
+          className={cn(
+            "absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-primary",
+            "transition-opacity duration-200",
+            active ? "opacity-100" : "opacity-0",
+          )}
+        />
+      </span>
     </Link>
   );
-}
+};
 
-export default PublicNavLink
+export default PublicNavLink;

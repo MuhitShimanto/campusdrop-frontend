@@ -4,7 +4,7 @@ export const fetchPublicStoreDetails = async (slug: string) => {
       `${process.env.BACKEND_URL}/api/v1/stores/${slug}`,
       {
         next: {
-          revalidate: 3600,
+          revalidate: 60,
           tags: [`store:${slug}`],
         },
       },
@@ -14,6 +14,7 @@ export const fetchPublicStoreDetails = async (slug: string) => {
       return null;
     }
     const json = await response.json();
+    console.log(json.data)
     return json.data;
   } catch {
     return null;

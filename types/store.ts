@@ -10,6 +10,24 @@ export type Store = {
   updated_at: string;
 };
 
+export type StoreListing = {
+  name: string;
+  price: number;
+  status: "active" | "inactive" | "closed";
+  image_url: string;
+  listing_id: string;
+  description: string;
+  listing_type: "preorder" | "always_on";
+  category_name: string;
+  order_end_time?: string;
+  pickup_ends_at: string;
+  pickup_location: string;
+  fulfillment_mode: "scheduled" | "immediate";
+  order_start_time?: string;
+  pickup_starts_at: string;
+  estimated_delivery_days?: number;
+};
+
 export type StorePublicViewData = {
   store: {
     cover: string;
@@ -19,10 +37,16 @@ export type StorePublicViewData = {
     store_id: string;
     description: string;
   };
+
   user: {
     avatar: string | null;
     name: string;
     slug: string;
     user_id: string;
+  };
+
+  listings: {
+    preorder: StoreListing[];
+    always_on: StoreListing[];
   };
 };

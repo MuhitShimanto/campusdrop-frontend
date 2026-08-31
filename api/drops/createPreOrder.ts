@@ -1,52 +1,64 @@
 import type { FormValues } from "@/lib/validations/listing";
-
 import { fromZonedTime } from "date-fns-tz";
 
 const DHAKA_TIMEZONE = "Asia/Dhaka";
 
 export const createPreOrder = async (data: FormValues) => {
-  const formData = new FormData();
+  const pickupStartsAt = fromZonedTime(
+    data.pickup_starts_at,
+    DHAKA_TIMEZONE,
+  );
 
-  formData.append("listing_type", data.listing_type);
-  formData.append("name", data.name);
-  formData.append("category_id", data.category);
-  formData.append("description", data.description);
-  formData.append("price", String(data.price));
-  formData.append("status", data.status);
-  formData.append("fulfillment_mode", data.fulfillment_mode);
+  const pickupEndsAt = fromZonedTime(
+    data.pickup_ends_at,
+    DHAKA_TIMEZONE,
+  );
 
-  if (data.pickup_location) {
-    formData.append("pickup_location", data.pickup_location);
-  }
+  const orderStartTime = fromZonedTime(
+    data.order_start_time,
+    DHAKA_TIMEZONE,
+  );
 
-  const pickupStartsAt = fromZonedTime(data.pickup_starts_at, DHAKA_TIMEZONE);
+  const orderEndTime = fromZonedTime(
+    data.order_end_time,
+    DHAKA_TIMEZONE,
+  );
 
-  const pickupEndsAt = fromZonedTime(data.pickup_ends_at, DHAKA_TIMEZONE);
+  const body = {
+    listing_type: data.listing_type,
+    name: data.name,
+    category_id: data.category,
+    description: data.description,
+    price: data.price,
+    status: data.status,
+    fulfillment_mode: data.fulfillment_mode,
 
-  const orderStartTime = fromZonedTime(data.order_start_time, DHAKA_TIMEZONE);
+    ...(data.pickup_location
+      ? {
+          pickup_location: data.pickup_location,
+        }
+      : {}),
 
-  const orderEndTime = fromZonedTime(data.order_end_time, DHAKA_TIMEZONE);
+    pickup_starts_at: pickupStartsAt.toISOString(),
+    pickup_ends_at: pickupEndsAt.toISOString(),
+    order_start_time: orderStartTime.toISOString(),
+    order_end_time: orderEndTime.toISOString(),
 
-  formData.append("pickup_starts_at", pickupStartsAt.toISOString());
-
-  formData.append("pickup_ends_at", pickupEndsAt.toISOString());
-
-  formData.append("order_start_time", orderStartTime.toISOString());
-
-  formData.append("order_end_time", orderEndTime.toISOString());
-
-  if (data.estimated_delivery_days !== undefined) {
-    formData.append(
-      "estimated_delivery_days",
-      String(data.estimated_delivery_days),
-    );
-  }
+    ...(data.estimated_delivery_days !== undefined
+      ? {
+          estimated_delivery_days: data.estimated_delivery_days,
+        }
+      : {}),
+  };
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/drops/create-preorder`,
     {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
       credentials: "include",
     },
   );
@@ -55,7 +67,10 @@ export const createPreOrder = async (data: FormValues) => {
 
   if (!response.ok) {
     throw new Error(
-      result?.message || result?.error || "Failed to create preorder",
+      result?.error?.message ||
+        result?.message ||
+        result?.error ||
+        "Failed to create preorder",
     );
   }
 
