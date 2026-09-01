@@ -14,7 +14,6 @@ export const fetchPublicStoreDetails = async (slug: string) => {
       return null;
     }
     const json = await response.json();
-    console.log(json.data)
     return json.data;
   } catch {
     return null;

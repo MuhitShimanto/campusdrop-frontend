@@ -26,13 +26,11 @@ export function ProfileForm({ initialProfile }: ProfileFormProps) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    // Replace with a server action / API request.
     console.log(profile);
   };
 
   const handleUpload = () => {
-    // Replace with your upload flow.
+    
   };
 
   return (
